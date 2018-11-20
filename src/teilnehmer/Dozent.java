@@ -4,24 +4,25 @@ import java.util.List;
 
 public class Dozent extends Person {
 //Attribute
-	int id;
-	int person_id;
+	private int id;
+	private int person_id;
 	/**
 	 * istMonatlichGehaltRechnung = true, Dozent nehmt sein Gehält monatlich.
 	 * istMonatlichGehaltRechnung = false, Dozent nehmt sein Gehält am ende des Kurs.
 	 */
-	boolean istMonatlichGehaltRechnung;
+	private boolean istMonatlichGehaltRechnung;
 	/**
 	 * Überweisung: Den Gehalt kann mit Grund nur überweisen.
 	 */
-	String ueberweisung;
+	private String ueberweisung;
 	/**
 	 * ISBN
 	 */
-	String bankverbindung;
-	String description;
+	private String bankverbindung;
+	private String description;
 	/**
+	 *  Beziehung: 1 Dozent to many Kures
 	 * Den Dozent kann viele Kursen Bieten
 	 */
-	List<Kurs> kursen;
+	private List<Kurs> kursen;
 }

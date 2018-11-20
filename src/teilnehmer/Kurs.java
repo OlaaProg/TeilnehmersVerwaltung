@@ -1,17 +1,23 @@
 package teilnehmer;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Kurs {
 //Attribute
-	int id;
+	private int id;
 	/**
 	 * Kursnummer soll uniq sein
 	 */
-	String kursnummer;
-	String kursname;
-	Date kursanfangsdatum;
-	Date kursendedatum;
-	String kurszeiten;
-	String description;
+	private String kursnummer;	
+	private String kursname;
+	private LocalDate kursanfangsdatum;
+	private LocalDate kursendedatum;
+	private String kurszeiten;
+	private String description;
+	/**
+	 * Beziehung: 1 Dozent to many Kures
+	 * ein Kurs hat nur einem Dozent 
+	 */
+	private Dozent dozent;
 }
