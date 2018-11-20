@@ -1,0 +1,13 @@
+package teilnehmer;
+
+public enum Typ {
+	
+	VORSITZENDER,
+	VERTERATER,
+	KASSENWART,
+	MITGLIEDER,
+	SPORTTEILNEHMER,
+	SPRACHTEINEHMER,
+	DOZENT
+	
+}
