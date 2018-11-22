@@ -2,7 +2,7 @@ package teilnehmer;
 
 import java.time.LocalDate;
 
-public class Teinehmer extends Person {
+public class Teilnehmer extends Person {
 //Attribute
 	//TODO private
 	//TODO LocalDate
