@@ -199,10 +199,8 @@ public class TeilnehmerView {
 				
 			}
 		});
-
 }
-	
-	
+		
 	private void anzeigItem(int index,ObservableList<Person> personenDaten) {
 		
 		idText.setText(Integer.toString(personenDaten.get(index).getId()));
