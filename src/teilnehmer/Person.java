@@ -11,21 +11,31 @@ public class Person {
 	protected String email;
 	protected int telefonnummer;
 
+	public Person() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Person(String vorname, String typ) {
 		super();
 		this.vorname = vorname;
 		this.typ = typ;
 	}
 
-	public Person() {
+	public Person(String vorname, String  nachname, String anschrift, String typ, String email, int telefonnummer) {
 		super();
-		// TODO Auto-generated constructor stub
+		this.vorname = vorname;
+		this.nachname = nachname;
+		this.anschrift = anschrift;
+		this.typ = typ;
+		this.email = email;
+		this.telefonnummer = telefonnummer;
 	}
 
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}

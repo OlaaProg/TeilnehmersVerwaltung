@@ -22,7 +22,7 @@ public class PersonVerbindung implements PersonZugriff {
 	public List<Person> getAll() {
 		List<Person> allePersonen=new ArrayList();
 		try (Connection con = DriverManager.getConnection(VERBINDUNG, USER, PASSWORT);) {
-			System.out.println("test die friedenshaus-Verwaltung person Verbindung: Erfolgreich");
+			//System.out.println("test die friedenshaus-Verwaltung person Verbindung: Erfolgreich");
 			Statement stm =con.createStatement();
 			ResultSet rs=stm.executeQuery(getAllSql+PERSON);
 			while(rs.next()) {
@@ -36,7 +36,7 @@ public class PersonVerbindung implements PersonZugriff {
 			System.out.println("Zugriff passt nicht: " + e);
 			e.printStackTrace();
 		}
-		allePersonen.forEach(System.out::println);
+		//allePersonen.forEach(System.out::println);
 		return allePersonen;
 	}
 
@@ -61,7 +61,7 @@ public class PersonVerbindung implements PersonZugriff {
 	@Override
 	public void update(Person p) {
 		try (Connection con = DriverManager.getConnection(VERBINDUNG, USER, PASSWORT);) {
-			System.out.println("test die friedenshaus-Verwaltung person Verbindung: Erfolgreich");
+			//System.out.println("test die friedenshaus-Verwaltung person Verbindung: Erfolgreich");
 
 			PreparedStatement ps = con.prepareStatement("UPDATE " + PERSON + " SET vorname=?, typ=?  WHERE id = ?");
 			ps.setString(1, p.getVorname());
@@ -69,7 +69,7 @@ public class PersonVerbindung implements PersonZugriff {
 			ps.setInt(3, p.getId());
 			ps.executeUpdate();
 
-			System.out.println("Update a Person ist Ok ");
+			//System.out.println("Update a Person ist Ok ");
 		} catch (SQLException e) {
 			System.out.println("Update ist nicht Ok: " + e);
 			e.printStackTrace();
@@ -96,17 +96,18 @@ public class PersonVerbindung implements PersonZugriff {
 	public Person getById(int id) {
 		Person p = new Person();
 		try (Connection con = DriverManager.getConnection(VERBINDUNG, USER, PASSWORT);) {
-			System.out.println("test die friedenshaus-Verwaltung Get By Id Verbindung: Erfolgreich");
+			//System.out.println("test die friedenshaus-Verwaltung Get By Id Verbindung: Erfolgreich");
 			PreparedStatement ps = con.prepareStatement(getAllSql + PERSON + " WHERE id =?");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			if (rs != null) {
+				p.setId(rs.getInt("id"));
 				p.setVorname(rs.getString("vorname"));
 				p.setTyp(rs.getString("typ"));
 			}
-			System.out.println("get by Id a Person ist Ok " + p);
-			System.out.println(" Person by Id ist: " + p);
+			//System.out.println("get by Id a Person ist Ok " + p);
+			//System.out.println(" Person by Id ist: " + p);
 		} catch (SQLException e) {
 			System.out.println("get by Id ist nicht Ok: " + e);
 			e.printStackTrace();
