@@ -23,15 +23,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import teilnehmer.Person;
 import teilnehmer.Teilnehmer;
+import teilnehmer.Typ;
 
 public class TeilnehmerView {
-	
+
 	private TextField idText;
 	private TextField vornameText;
 	private TextField nachnameText;
 	private ComboBox zustandComboBox;
 	private TextField anmeldungsdatumText;
-	private TextField abmeldungsdatumText ;
+	private TextField abmeldungsdatumText;
 	private TableView teilnehmernTableView;
 
 	private Button add;
@@ -39,11 +40,10 @@ public class TeilnehmerView {
 	private Button upd;
 
 	private Button first;
-	private Button next ;
+	private Button next;
 	private Button previous;
 	private Button last;
 
-	
 	public GridPane TeilnehmerGridPane() {
 		// TODO: gitter Style design
 		GridPane gitter = new GridPane();
@@ -67,27 +67,35 @@ public class TeilnehmerView {
 		// Inthalt
 		// Gitter
 		Label idLabel = new Label("Identify Nummer");
-		TextField idText = new TextField();
+		idText = new TextField();
 
 		Label vornameLabel = new Label("Vorname");
-		TextField vornameText = new TextField();
+		vornameText = new TextField();
 
 		Label nachnameLabel = new Label("Nachname");
-		TextField nachnameText = new TextField();
+		nachnameText = new TextField();
 
 		Label zustandLabel = new Label("Zuständigkeit");
-		ComboBox zustandComboBox = new ComboBox();
+		zustandComboBox = new ComboBox();
 
+		zustandComboBox.getItems().addAll(Typ.DOZENT, Typ.KASSENWART, Typ.MITGLIEDER, Typ.SPORTTEILNEHMER,
+				Typ.SPRACHTEINEHMER, Typ.VERTERATER, Typ.VORSITZENDER);
+		zustandComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				zustandComboBox.setValue(newSelection);
+
+			}
+		});
 		Label anmeldungsdatumLabel = new Label("Anmeldungsdatum");
-		TextField anmeldungsdatumText = new TextField();
+		anmeldungsdatumText = new TextField();
 
 		Label abmeldungsdatumLabel = new Label("Abmeldungsdatum");
-		TextField abmeldungsdatumText = new TextField();
+		abmeldungsdatumText = new TextField();
 
 		Label teilnehmernLabel = new Label("Teilnehmern");
-		TableView teilnehmernTableView = new TableView();
+		teilnehmernTableView = new TableView();
 		fillTableWithData(teilnehmernTableView);
-		
+
 		Button add = new Button("Add");
 		Button del = new Button("Delete");
 		Button upd = new Button("Update");
@@ -98,8 +106,8 @@ public class TeilnehmerView {
 		Button last = new Button("Last");
 
 		gitter.add(idLabel, 0, 0);
-		gitter.add(idText, 1, 0); 
-		
+		gitter.add(idText, 1, 0);
+
 		gitter.add(vornameLabel, 0, 1);
 		gitter.add(vornameText, 1, 1);
 
@@ -137,22 +145,26 @@ public class TeilnehmerView {
 				Person p = new Person(vornameText.getText(), "Tester add");
 				pv.add(p);
 				vornameText.clear();
-				//TODO: Update the TableView
+				// TODO: Update the TableView
 				fillTableWithData(teilnehmernTableView);
+				// TODO: SelectedRow bleibet auf dem updatezeile
+				teilnehmernTableView.getSelectionModel().selectLast();
 			}
 
 		});
-		
-		del.setOnAction(new EventHandler<ActionEvent>(){
+
+		del.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				PersonVerbindung pv = new PersonVerbindung();
-				Person p = pv.getById(Integer.parseInt(idText.getText()));				
+				Person p = pv.getById(Integer.parseInt(idText.getText()));
 				pv.delete(p);
+				int slectedIndex = teilnehmernTableView.getSelectionModel().getSelectedIndex();
 				fillTableWithData(teilnehmernTableView);
-	
+				// TODO: SelectedRow bleibet auf dem updatezeile
+				teilnehmernTableView.getSelectionModel().select(slectedIndex-1);
 			}
-			
+
 		});
 		upd.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -160,10 +172,12 @@ public class TeilnehmerView {
 				PersonVerbindung pv = new PersonVerbindung();
 				Person p = pv.getById(Integer.parseInt(idText.getText()));
 				p.setVorname(vornameText.getText());
-				p.setTyp(p.getTyp()+"Geändert"+LocalDate.now());
+				p.setTyp(zustandComboBox.getValue().toString());
 				pv.update(p);
+				int slectedIndex = teilnehmernTableView.getSelectionModel().getSelectedIndex();
 				fillTableWithData(teilnehmernTableView);
-
+				// TODO: SelectedRow bleibet auf dem updatezeile
+				teilnehmernTableView.getSelectionModel().select(slectedIndex);
 			}
 		});
 
@@ -191,20 +205,34 @@ public class TeilnehmerView {
 		zustandCol4.setCellValueFactory(new PropertyValueFactory<Person, String>("typ"));
 		table.setEditable(true);
 		table.setItems(personenDaten);
-		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				System.out.println("Mouse Event" +arg0.getPickResult().getIntersectedNode().getClass());
-				
+		table.getSelectionModel().selectFirst();
+		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				Person selectedRowP = (Person) table.getSelectionModel().getSelectedItem();
+				System.out.println("Selected row  on selected : " + selectedRowP);
+				anzeigGewählteItem(selectedRowP);
 			}
 		});
-}
-		
-	private void anzeigItem(int index,ObservableList<Person> personenDaten) {
-		
+		Object obj = table.getSelectionModel().getSelectedItem();
+
+		System.out.println("Selected row at first : " + obj);
+		anzeigGewählteItem((Person) obj);
+	}
+
+	private void anzeigGewählteItem(Person selectedRowP) {
+		// System.out.println("**** Selected row selected : " + selectedRowP);
+		// System.out.println("***" +vornameText);
+		idText.setText(Integer.toString(selectedRowP.getId()));
+		vornameText.setText(selectedRowP.getVorname());
+		zustandComboBox.setValue(selectedRowP.getTyp());
+
+	}
+
+	private void anzeigItem(int index, ObservableList<Person> personenDaten) {
+
 		idText.setText(Integer.toString(personenDaten.get(index).getId()));
 		vornameText.setText(personenDaten.get(index).getVorname());
-		
+
 	}
 }
