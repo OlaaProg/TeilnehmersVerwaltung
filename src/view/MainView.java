@@ -17,12 +17,13 @@ public class MainView extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Teilnehmer");
-				
-		GridPane gitter = new TeilnehmerView().TeilnehmerGridPane();
+		primaryStage.setTitle("Ausblidungs-und Friedenshaus Verein");
+		Layouts layout=new Layouts();
 		
-		Scene scene = new Scene(gitter, 800, 600);
-		scene.getStylesheets().add("style/gitter.css");
+		GridPane personLayout = new TeilnehmerView().TeilnehmerGridPane();
+		Scene scene = new Scene(layout, 800, 600);
+
+		scene.getStylesheets().add("style/PersonStyle.css");
 		primaryStage.setScene(scene);
 
 		primaryStage.show();

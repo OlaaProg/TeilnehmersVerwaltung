@@ -3,7 +3,7 @@ package teilnehmer;
 public enum Typ {
 	
 	VORSITZENDER,
-	VERTERATER,
+	VERTRATER,
 	KASSENWART,
 	MITGLIEDER,
 	SPORTTEILNEHMER,

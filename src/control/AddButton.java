@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import teilnehmer.Person;
 
 public class AddButton extends Button {
-
+//TODO: Extend den Add Button
 	public AddButton(List<Person> data, Person person) {
 		this.setOnAction(new EventHandler<ActionEvent>() {
 
